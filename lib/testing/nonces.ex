@@ -33,6 +33,10 @@ defmodule Braintree.Testing.Nonces do
     "fake-apple-pay-amex-nonce"
   end
 
+  def android_pay_visa do
+    "fake-android-pay-visa-nonce"
+  end
+
   def abstract_transactable do
     "fake-abstract-transactable-nonce"
   end

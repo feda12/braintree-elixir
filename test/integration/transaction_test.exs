@@ -20,6 +20,30 @@ defmodule Braintree.Integration.TransactionTest do
     assert transaction.customer.id == nil
   end
 
+  test "sale/1 successful with Apple Pay" do
+    {:ok, transaction} =
+      Transaction.sale(%{
+        amount: "100.00",
+        payment_method_nonce: Nonces.apple_pay_visa(),
+        options: %{submit_for_settlement: true}
+      })
+
+    assert transaction.amount == "100.00"
+    assert transaction.apple_pay.card_type == "Apple Pay - Visa"
+  end
+
+  test "sale/1 successful with Android Pay" do
+    {:ok, transaction} =
+      Transaction.sale(%{
+        amount: "100.00",
+        payment_method_nonce: Nonces.android_pay_visa(),
+        options: %{submit_for_settlement: true}
+      })
+
+    assert transaction.amount == "100.00"
+    assert transaction.android_pay_card.source_card_type == "Visa"
+  end
+
   test "sale/1 submits billing information" do
     [card_number | _] = CreditCardNumbers.master_cards()
 
